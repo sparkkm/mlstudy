@@ -1,2 +1,135 @@
 
-11
+import pandas as pd
+
+data1 = pd.read_csv('/기획전_몬스터_리얼아트_화장솜_1_120180427-20180503.csv',sep=',')
+
+data1.head
+
+list(data1)
+
+data1.columns = [
+'VsDays_Group',
+'Vs_Num',
+'Vs_Id',
+'Prod',
+'p_GnbClick',
+'e_GnbMenu',
+'e_Dow',
+'e_SideMenu',
+'p_SIdeMenu',
+'e_AreaName',
+'e_ProdTab',
+'e_QuickName',
+'e_TimeHour',
+'p_TimeHour',
+'e_SearchFilter',
+'e_EventName',
+'CartRem',
+'CardAdd',
+'Carts',
+'CartViews',
+'TotalSeconds',
+'Revenue',
+'Checkouts',
+'Orders',
+'PageViews',
+'UniqVst',
+'Vs' ]
+
+list(data1)
+
+data1['Vs_Id'].unique()
+Vs_num = data1['Vs_Num'].unique()
+
+data1['Carts'].unique()
+
+data1['VsDays_Group'].unique()
+
+data1 = data1[data1.Vs_Num != 0]
+
+data1 = data1[data1.Orders != 0]
+
+data1['Vs_Num']
+list(data1)
+
+data1 = data1.iloc[:,[1,-8,-7,-6,-5,-4,-3]]
+#
+
+
+data1.dropna(subset=['Vs_Num'], how='all', inplace= True)
+
+data1['Vs_Num']
+
+
+datacorr = data1.corr()
+print(datacorr)
+
+datacorr.to_csv('datacorr.csv', sep=',')
+
+p1 = data1[data1.Orders != 0]
+#주문X
+p2 = data1[data1.Orders == 0]
+#주문O
+
+y1 = p1[p1.columns[p1.columns == 'Orders'] ]
+x1 = p1[p1.columns[p1.columns != 'Orders'] ]
+
+y2 = p2[p2.columns[p2.columns == 'Orders'] ]
+x2 = p2[p2.columns[p2.columns != 'Orders'] ]
+
+
+##
+
+pcode_quantity = pcode_quantity.groupby('id')['count'].sum()
+k  = product_info.drop_duplicates()
+df = k.join(pcode_quantity, on='id').fillna({'count': 0})
+app_product_info['id'] = df['id'].astype(str)
+mobile_product_info['id'] = df['id'].astype(str)
+
+app_product_info = app_product_info.groupby('id')['a_count'].sum()
+df_app = product_info.join(app_product_info, on='id').fillna({'a_count': 0})
+
+app_product_info = app_product_info.groupby('id')['a_refund'].sum()
+df_app_refund = product_info.join(app_product_info, on='id').fillna({'a_refund': 0})
+
+mobile_product_info = mobile_product_info.groupby('id')['m_count'].sum()
+df_mobile = product_info.join(mobile_product_info, on='id').fillna({'m_count': 0})
+
+mobile_product_info = mobile_product_info.groupby('id')['m_refund'].sum()
+df_mobile_refund = product_info.join(mobile_product_info, on='id').fillna({'m_refund': 0})
+
+
+df_mobile['id'] = df_mobile_refund['id'].astype(str)
+df_mobile_sum = df_mobile.join(df_mobile_refund, on='id')
+
+
+##
+
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.models import load_model    
+from keras.utils.training_utils import multi_gpu_model
+import random
+
+dataset_csv = np.loadtxt('C:/Users/jssong/Desktop/Analytics.csv', delimiter=',')   
+
+x_train=dataset_csv[:round(285039053*0.9),0:3]
+y_train=dataset_csv[:round(285039053*0.9),3]
+x_test=dataset_csv[round(285039053*0.9):,0:3]
+y_test=dataset_csv[round(285039053*0.9):,3]
+        
+model =Sequential()
+model.add(Dense(128, input_shape=3, activation='relu'))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(8, activation='relu'))
+model.add(Dense(4, activation='relu'))
+model.add(Dense(2, activation='relu'))
+
+model.add(Dense(1, activation='adamax'))
+#model = multi_gpu_model(model, gpus=4)
+model.compile(loss='binary_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
+model.fit(x_train,y_train,epochs = 10, batch_size =100)
+
+scores = model.evaluate(x_test,y_test)
+#print("%s:.2f%%"%(model.metrics_names[1], scores[1]*100))
+model.save('C:/Users/jssong/Desktop/Analytics_model.h5')  
