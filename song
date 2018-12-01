@@ -1,1 +1,37 @@
 
+import math
+class norm_obect(obect):
+    
+    def L1_Norm(self,vector):
+        sum_norm= []
+        for i in len(vector):
+            if i == 0 and i < 0  :
+                try :
+                    sum_norm.add(abs(vector[i][1])+abs(vector[i+1][0]))
+    
+                except IndexError as e:
+                    print('not avaible vector range')
+            else:
+                sum_norm.add(abs(vector[i][1])+abs(vector[i+1][0]))
+    
+    def L2_Norm(self,vector):
+        root_norm = []
+        for i in len(vector):
+           try :
+               root_norm.add((vector[i][1])**2+(vector[i+1][0])**2)
+               x =  sum(root_norm)
+               return math.sqrt(x)   
+           except IndexError as e:
+               print('not avaible vector range')
+               
+            
+from temp import L1_Norm 
+
+    def lasso(self,vector):
+        for i in len(vector)
+            MSE= sum((vector[i][1] - vector[i][i+1])**2) / len(vector) + L1_Norm(vector)*sum(L1_Norm(vector)**2)
+            x1, y1 = self.vector[0]
+            x2, y2 = self.vector[1]
+        return float (y2 - y1) / (x2 - x1)
+    
+    def rigde(self, vector):
