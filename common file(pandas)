@@ -1,4 +1,5 @@
 
+
 import pandas as pd
 
 data1 = pd.read_csv('/기획전_몬스터_리얼아트_화장솜_1_120180427-20180503.csv',sep=',')
@@ -38,44 +39,41 @@ data1.columns = [
 
 list(data1)
 
-data1['Vs_Id'].unique()
-Vs_num = data1['Vs_Num'].unique()
 
 data1['Carts'].unique()
 
 data1['VsDays_Group'].unique()
 
-data1 = data1[data1.Vs_Num != 0]
-
-data1 = data1[data1.Orders != 0]
-
-data1['Vs_Num']
-list(data1)
-
-data1 = data1.iloc[:,[1,-8,-7,-6,-5,-4,-3]]
-#
-
-
+#data1 = data1[data1.Vs_Num != 0]
+#data1 = data1[data1.Orders != 0]
+    
 data1.dropna(subset=['Vs_Num'], how='all', inplace= True)
 
-data1['Vs_Num']
+corr = data1
 
+corr.drop(corr.select_dtypes(['object']), inplace=True, axis=1)
 
-datacorr = data1.corr()
+print(corr)
+
+datacorr = corr.corr()
+datacorr 
 print(datacorr)
 
-datacorr.to_csv('datacorr.csv', sep=',')
+datacorr.to_csv('/datacorr.csv', sep=',')
+
+
+
+##
 
 p1 = data1[data1.Orders != 0]
-#주문X
 p2 = data1[data1.Orders == 0]
-#주문O
 
 y1 = p1[p1.columns[p1.columns == 'Orders'] ]
 x1 = p1[p1.columns[p1.columns != 'Orders'] ]
 
 y2 = p2[p2.columns[p2.columns == 'Orders'] ]
 x2 = p2[p2.columns[p2.columns != 'Orders'] ]
+
 
 
 ##
